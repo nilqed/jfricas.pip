@@ -1,0 +1,320 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Basic Usage &#8212; jFriCAS 0.3 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Installation" href="install.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="basic-usage">
+<h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<dl class="field-list simple">
+<dt class="field-odd">Reference</dt>
+<dd class="field-odd"><p>Jupyter <a class="reference external" href="https://jupyter-notebook.readthedocs.io/en/stable/">Notebook</a> (readthedocs)</p>
+</dd>
+</dl>
+<p>Start the notebook server from the command line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">notebook</span>
+</pre></div>
+</div>
+<p>You should see the notebook open in your browser.</p>
+<div class="section" id="new-fricas">
+<h2>New -&gt; FriCAS<a class="headerlink" href="#new-fricas" title="Permalink to this headline">¶</a></h2>
+<p>Chose the new <code class="docutils literal notranslate"><span class="pre">FriCAS</span></code> kernel by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">New</span> <span class="o">-&gt;</span> <span class="n">FriCAS</span>
+</pre></div>
+</div>
+<img alt="_images/new_fricas.png" src="_images/new_fricas.png" />
+<p>If all goes as it should, you will see a similar output when entering the
+commands as in the picture below.</p>
+<img alt="_images/versions.png" src="_images/versions.png" />
+<p>The <em>console</em> window shows kernel messages, especially it will tell you
+when the notebook was saved (periodically)</p>
+<img alt="_images/kernel_console.png" src="_images/kernel_console.png" />
+</div>
+<div class="section" id="input">
+<h2>Input<a class="headerlink" href="#input" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Send key</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">Shift-Return</span></code></p>
+</dd>
+</dl>
+<p>You may enter single line code followed by a <code class="docutils literal notranslate"><span class="pre">Shift-Return</span></code>, i.e. hold
+down the <code class="docutils literal notranslate"><span class="pre">Shift</span></code> key, then press the <code class="docutils literal notranslate"><span class="pre">Return</span></code> key (<strong>note</strong> that
+<code class="docutils literal notranslate"><span class="pre">--</span></code> designates a commment in <code class="docutils literal notranslate"><span class="pre">Fricas</span></code>).</p>
+<img alt="_images/single_line.png" src="_images/single_line.png" />
+<p>or appropriately indented multi-line code:</p>
+<img alt="_images/multi_line.png" src="_images/multi_line.png" />
+<p><strong>Recall</strong> that <code class="docutils literal notranslate"><span class="pre">_</span></code> denotes the line continuation character in <code class="docutils literal notranslate"><span class="pre">FriCAS</span></code>.</p>
+<p>There are a lot of features in Jupyter, e.g. running all cells</p>
+<img alt="_images/run_all.png" src="_images/run_all.png" />
+<p>or a print preview (rendered HTML) which allows you to save the complete
+page (including images, javascript and so on) by your browser. For instance,
+<code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">page</span> <span class="pre">as</span></code> in <code class="docutils literal notranslate"><span class="pre">Firefox</span></code>.</p>
+<img alt="_images/print_preview.png" src="_images/print_preview.png" />
+</div>
+<div class="section" id="close-and-halt">
+<h2>Close and Halt<a class="headerlink" href="#close-and-halt" title="Permalink to this headline">¶</a></h2>
+<p>The notebook may be terminated by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">quit</span>
+</pre></div>
+</div>
+<p>or from the menu (preferred)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Close</span> <span class="ow">and</span> <span class="n">Halt</span>
+</pre></div>
+</div>
+<img alt="_images/close_and_halt.png" src="_images/close_and_halt.png" />
+</div>
+<div class="section" id="code-completion">
+<h2>Code completion<a class="headerlink" href="#code-completion" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Key</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">TAB</span></code></p>
+</dd>
+</dl>
+<p>Code completion works as usual by pressing the <code class="docutils literal notranslate"><span class="pre">TAB</span></code> key</p>
+<img alt="_images/code_completion.png" src="_images/code_completion.png" />
+</div>
+<div class="section" id="code-inspection">
+<h2>Code inspection<a class="headerlink" href="#code-inspection" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Key</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">Shift-TAB</span></code></p>
+</dd>
+</dl>
+<p>Press <code class="docutils literal notranslate"><span class="pre">Shift-TAB</span></code> to show a pop-up pager that will show the usage of
+an operation, provided that it was found (similar as <code class="docutils literal notranslate"><span class="pre">)display</span> <span class="pre">operation</span></code>).</p>
+<img alt="_images/code_inspect.png" src="_images/code_inspect.png" />
+<p>The pager text may be expanded if necessary (mouse click on <code class="docutils literal notranslate"><span class="pre">+</span></code>):</p>
+<img alt="_images/code_inspect_expand.png" src="_images/code_inspect_expand.png" />
+</div>
+<div class="section" id="accessing-the-shell">
+<h2>Accessing the shell<a class="headerlink" href="#accessing-the-shell" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">prefix</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">!</span></code></p>
+</dd>
+</dl>
+<p>To run a shell command (e.g. <code class="docutils literal notranslate"><span class="pre">ls</span></code>), put a <code class="docutils literal notranslate"><span class="pre">!</span></code> in front of the command.
+<strong>Note</strong> that <code class="docutils literal notranslate"><span class="pre">!</span></code> must be the first character in the cell, otherwise it
+will not be interpreted as shell prefix character.</p>
+<img alt="_images/shell_prefix.png" src="_images/shell_prefix.png" />
+<p>You may enter multiple lines, however, <code class="docutils literal notranslate"><span class="pre">!</span></code> must still be the first character
+in the cell, as already remarked.</p>
+<img alt="_images/shell_multiline.png" src="_images/shell_multiline.png" />
+<p>The output of the last shell command (at least parts of it) is also
+<strong>stored</strong> in the <code class="docutils literal notranslate"><span class="pre">Fricas</span></code> variable</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">__system_result</span>
+</pre></div>
+</div>
+<img alt="_images/system_result.png" src="_images/system_result.png" />
+</div>
+<div class="section" id="python-commands">
+<h2>Python commands<a class="headerlink" href="#python-commands" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">usage</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">)python</span></code></p>
+</dd>
+</dl>
+<p>With the fake system command <code class="docutils literal notranslate"><span class="pre">)python</span></code>, one may evaluate a limited set
+of python commands (internally an <code class="docutils literal notranslate"><span class="pre">eval</span></code>, works only in Jupyter).</p>
+<p>For example, getting the IP port of the current Fricas+HT instance:</p>
+<img alt="_images/htport.png" src="_images/htport.png" />
+<p>or, if wou want to know, where the current kernel has been installed:</p>
+<img alt="_images/fricaskernel_loc.png" src="_images/fricaskernel_loc.png" />
+<p>Remark: If you want to have more access to Python, you could edit the
+kernel file and add <code class="docutils literal notranslate"><span class="pre">globals</span></code> to <code class="docutils literal notranslate"><span class="pre">eval</span></code>.</p>
+</div>
+<div class="section" id="editing-files">
+<h2>Editing files<a class="headerlink" href="#editing-files" title="Permalink to this headline">¶</a></h2>
+<p>There are may ways to create and edit files during a Jupyter notebook session.
+(certainly from the Jupyter main page). You can use the Fricas system
+command <code class="docutils literal notranslate"><span class="pre">)edit</span></code>, provided the shell variable <code class="docutils literal notranslate"><span class="pre">EDITOR</span></code> has been set, or
+you may use any editor by prefixing <code class="docutils literal notranslate"><span class="pre">!</span></code>, e.g. <code class="docutils literal notranslate"><span class="pre">gedit</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">example</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">!gedit</span></code></p>
+</dd>
+</dl>
+<p>Create a new file <code class="docutils literal notranslate"><span class="pre">test.input</span></code> and enter the function definition</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">==</span> <span class="n">x</span><span class="o">*</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>Then <code class="docutils literal notranslate"><span class="pre">save</span></code> and (optionally) <code class="docutils literal notranslate"><span class="pre">close</span></code>:</p>
+<img alt="_images/gedit.png" src="_images/gedit.png" />
+<p>Read the function in by <code class="docutils literal notranslate"><span class="pre">)read</span></code> and try <code class="docutils literal notranslate"><span class="pre">f(8)</span></code>:</p>
+<img alt="_images/gedit2.png" src="_images/gedit2.png" />
+</div>
+<div class="section" id="latex-output">
+<h2>LaTeX output<a class="headerlink" href="#latex-output" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">command</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">)set</span> <span class="pre">output</span> <span class="pre">tex</span> <span class="pre">on/off</span></code></p>
+</dd>
+</dl>
+<p>Setting <code class="docutils literal notranslate"><span class="pre">TeX</span></code> output on, you will see both, algebraic and <code class="docutils literal notranslate"><span class="pre">MathJax</span></code>
+output (<strong>right-click</strong> on the <code class="docutils literal notranslate"><span class="pre">MathJax</span></code> output to get a context menu).</p>
+<img alt="_images/set_out_tex_on.png" src="_images/set_out_tex_on.png" />
+<p>You have to turn the plain text output off if you do want the rendered
+output only: <code class="docutils literal notranslate"><span class="pre">)set</span> <span class="pre">output</span> <span class="pre">algebra</span> <span class="pre">off</span></code></p>
+<img alt="_images/tex_algebra_off.png" src="_images/tex_algebra_off.png" />
+</div>
+<div class="section" id="html-from-fricas">
+<h2>HTML from FriCAS<a class="headerlink" href="#html-from-fricas" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">prefix</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">$HTML$</span></code></p>
+</dd>
+</dl>
+<p>There is an experimental feature that allows to return string output from
+Fricas which will be rendered as <code class="docutils literal notranslate"><span class="pre">HTML</span></code> if prefixed with <code class="docutils literal notranslate"><span class="pre">$HTML$</span></code>:</p>
+<img alt="_images/html_prefix.png" src="_images/html_prefix.png" />
+<p>A string (<code class="docutils literal notranslate"><span class="pre">Type:</span> <span class="pre">String</span></code>) like</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;$HTML$&lt;h1&gt;Header&quot;</span>
+</pre></div>
+</div>
+<p>will appear as HTML header, while</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;&lt;h1&gt;Header&quot;</span>
+</pre></div>
+</div>
+<p>will be displayed as plain text.</p>
+</div>
+<div class="section" id="draw">
+<h2>Draw<a class="headerlink" href="#draw" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">draw</span></code> commands of Fricas will work as as usually. You may save
+the plot as a <code class="docutils literal notranslate"><span class="pre">Postscript</span></code> file, then convert it to <code class="docutils literal notranslate"><span class="pre">PNG</span></code> and
+eventually insert it into the notebook.</p>
+<img alt="_images/draw.png" src="_images/draw.png" />
+<dl class="field-list simple">
+<dt class="field-odd">todo</dt>
+<dd class="field-odd"><p>ps2png</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="gnuplot">
+<h2>Gnuplot<a class="headerlink" href="#gnuplot" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">experimental</dt>
+<dd class="field-odd"><p>todo</p>
+</dd>
+</dl>
+<img alt="_images/sys_gnuplot.png" src="_images/sys_gnuplot.png" />
+</div>
+<div class="section" id="help">
+<h2>Help<a class="headerlink" href="#help" title="Permalink to this headline">¶</a></h2>
+<img alt="_images/sys_help.png" src="_images/sys_help.png" />
+<img alt="_images/sys_help_edit.png" src="_images/sys_help_edit.png" />
+<img alt="_images/sys_d_op.png" src="_images/sys_d_op.png" />
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">jFriCAS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#new-fricas">New -&gt; FriCAS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#input">Input</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#close-and-halt">Close and Halt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-completion">Code completion</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#code-inspection">Code inspection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#accessing-the-shell">Accessing the shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#python-commands">Python commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#editing-files">Editing files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#latex-output">LaTeX output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#html-from-fricas">HTML from FriCAS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#draw">Draw</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gnuplot">Gnuplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#help">Help</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="install.html" title="previous chapter">Installation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Ralf Hemmecke, Kurt Pagani.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/usage.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
