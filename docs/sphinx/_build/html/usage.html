@@ -216,14 +216,36 @@ eventually insert it into the notebook.</p>
 </dd>
 </dl>
 </div>
-<div class="section" id="gnuplot">
-<h2>Gnuplot<a class="headerlink" href="#gnuplot" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="gnuplot-experimental">
+<h2>Gnuplot (experimental)<a class="headerlink" href="#gnuplot-experimental" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="http://www.gnuplot.info/">Gnuplot</a> (cited from the homepage) is a portable command-line driven graphing utility for Linux, OS/2, MS Windows, OSX, VMS, and many other platforms. It was originally created to allow scientists and students to visualize mathematical functions and data interactively, but has grown to support many non-interactive uses such as web scripting. It is also used as a plotting engine by third-party applications like Octave. Gnuplot has been supported and under active development since 1986.</p>
+<p>To use <a class="reference external" href="http://www.gnuplot.info/">Gnuplot</a> in <code class="docutils literal notranslate"><span class="pre">jfricas</span></code>, it is required to have installed a version which supports
+the <code class="docutils literal notranslate"><span class="pre">canvas</span></code> terminal, e.g. version 5.2 or later</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">gnuplot</span><span class="o">-</span><span class="n">nox</span>
+
+<span class="n">gnuplot</span><span class="o">-</span><span class="n">nox</span><span class="o">/</span><span class="n">bionic</span><span class="p">,</span><span class="n">now</span> <span class="mf">5.2</span><span class="o">.</span><span class="mi">2</span><span class="o">+</span><span class="n">dfsg1</span><span class="o">-</span><span class="mi">2</span><span class="n">ubuntu1</span> <span class="n">amd64</span> <span class="p">[</span><span class="n">installed</span><span class="p">]</span>
+<span class="n">Command</span><span class="o">-</span><span class="n">line</span> <span class="n">driven</span> <span class="n">interactive</span> <span class="n">plotting</span> <span class="n">program</span><span class="o">.</span> <span class="n">No</span><span class="o">-</span><span class="n">X</span> <span class="n">package</span>
+</pre></div>
+</div>
+<p>In order to find and serve the javascript files for the <em>HTML canvas</em> it is also
+required to create a symbolic link (as in the example below)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Open a python3 session to find the static file path</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">notebook.notebookapp</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">notebook</span><span class="o">.</span><span class="n">notebookapp</span><span class="o">.</span><span class="n">DEFAULT_STATIC_FILES_PATH</span>
+<span class="s1">&#39;/home/kfp/.local/lib/python3.6/site-packages/notebook/static&#39;</span>
+
+
+<span class="c1"># In a shell console create the symbolic link correspondingly</span>
+<span class="n">ln</span> <span class="o">-</span><span class="n">s</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">gnuplot</span><span class="o">/</span><span class="n">gnuplot</span><span class="o">/</span><span class="mf">5.2</span><span class="o">/</span><span class="n">js</span><span class="o">/</span>
+  <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">kfp</span><span class="o">/.</span><span class="n">local</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="o">.</span><span class="mi">6</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">notebook</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">gpjs</span>
+
+<span class="c1"># Start a notebook and check if it is ok by</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">8888</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">gpjs</span><span class="o">/</span><span class="n">canvastext</span><span class="o">.</span><span class="n">js</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
-<dt class="field-odd">experimental</dt>
-<dd class="field-odd"><p>todo</p>
-</dd>
-<dt class="field-even">ref</dt>
-<dd class="field-even"><p><a class="reference external" href="http://www.gnuplot.info/">gnuplot</a></p>
+<dt class="field-odd">ref</dt>
+<dd class="field-odd"><p><a class="reference external" href="http://www.gnuplot.info/">Gnuplot</a></p>
 </dd>
 </dl>
 <img alt="_images/gnuplot_test.png" src="_images/gnuplot_test.png" />
@@ -269,7 +291,7 @@ eventually insert it into the notebook.</p>
 <li class="toctree-l2"><a class="reference internal" href="#latex-output">LaTeX output</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#html-from-fricas">HTML from FriCAS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#draw">Draw</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#gnuplot">Gnuplot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gnuplot-experimental">Gnuplot (experimental)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#help">Help</a></li>
 </ul>
 </li>
