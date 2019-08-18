@@ -215,6 +215,44 @@ eventually insert it into the notebook.</p>
 <dd class="field-odd"><p>ps2png</p>
 </dd>
 </dl>
+<p>A simple (yet powerful) application to convert postscript images to <code class="docutils literal notranslate"><span class="pre">PNG</span></code>
+is <code class="docutils literal notranslate"><span class="pre">ps2png</span></code> from the <a class="reference external" href="http://manpages.ubuntu.com/manpages/precise/man1/tth.1.html">TtH</a> and <a class="reference external" href="http://manpages.ubuntu.com/manpages/precise/man1/ttm.1.html">TtM</a> packages</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!apt search ttm
+
+tth-common/bionic,now 4.12+ds-2 amd64 [installed]
+   auxiliary software material for TtH and TtM
+
+ttm/bionic 4.12+ds-2 amd64
+   TeX/LaTeX to MathML converter
+</pre></div>
+</div>
+<p>Install <code class="docutils literal notranslate"><span class="pre">tth-common</span></code> with <code class="docutils literal notranslate"><span class="pre">apt</span></code> then <code class="docutils literal notranslate"><span class="pre">ps2png</span></code> will be available.</p>
+<p>After conversion you can insert the <code class="docutils literal notranslate"><span class="pre">PNG</span></code> (or <code class="docutils literal notranslate"><span class="pre">GIF</span></code> as well) into the
+notebook by</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ESC-M  (i.e. change to markdown mode)
+
+![text](pic.png)  (RETURN)
+</pre></div>
+</div>
+<p>and the picture should appear.</p>
+<dl class="field-list simple">
+<dt class="field-odd">SYNOPSIS</dt>
+<dd class="field-odd"><p>ps2png</p>
+</dd>
+</dl>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">tth</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">file</span><span class="o">.</span><span class="n">tex</span><span class="p">]</span> <span class="p">[</span><span class="o">&gt;</span><span class="n">file</span><span class="o">.</span><span class="n">html</span><span class="p">]</span> <span class="p">[</span><span class="mi">2</span><span class="o">&gt;</span><span class="n">err</span><span class="p">]</span>
+<span class="n">tth</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="n">file</span><span class="o">.</span><span class="n">tex</span> <span class="p">[</span><span class="mi">2</span><span class="o">&gt;</span><span class="n">err</span><span class="p">]</span>
+
+<span class="n">ttm</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">file</span><span class="o">.</span><span class="n">tex</span><span class="p">]</span> <span class="p">[</span><span class="o">&gt;</span><span class="n">file</span><span class="o">.</span><span class="n">xml</span><span class="p">]</span> <span class="p">[</span><span class="mi">2</span><span class="o">&gt;</span><span class="n">err</span><span class="p">]</span>
+<span class="n">ttm</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="n">file</span><span class="o">.</span><span class="n">tex</span> <span class="p">[</span><span class="mi">2</span><span class="o">&gt;</span><span class="n">err</span><span class="p">]</span>
+
+<span class="n">latex2gif</span> <span class="n">file</span> <span class="p">(</span><span class="n">no</span> <span class="n">extension</span><span class="p">)</span>
+
+<span class="n">ps2gif</span> <span class="n">file</span><span class="o">.</span><span class="n">ps</span> <span class="n">file</span><span class="o">.</span><span class="n">gif</span> <span class="p">[</span><span class="n">icon</span><span class="o">.</span><span class="n">gif</span><span class="p">]</span>
+
+<span class="n">ps2png</span> <span class="n">file</span><span class="o">.</span><span class="n">ps</span> <span class="n">file</span><span class="o">.</span><span class="n">png</span> <span class="p">[</span><span class="n">icon</span><span class="o">.</span><span class="n">gif</span><span class="p">]</span>
+</pre></div>
+</div>
 </div>
 <div class="section" id="gnuplot-experimental">
 <h2>Gnuplot (experimental)<a class="headerlink" href="#gnuplot-experimental" title="Permalink to this headline">¶</a></h2>
