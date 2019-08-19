@@ -1,0 +1,16 @@
+
+Goal: /static/components/codemirror/mode/spad/spad.js
+
+# RUN
+STATIC=$(python3 -c "import notebook.notebookapp as nap; print(nap.DEFAULT_STATIC_FILES_PATH)")
+
+echo $STATIC
+/home/kfp/.local/lib/python3.6/site-packages/notebook/static
+
+# LS MODE
+ls $STATIC/components/codemirror/mode/
+# if no spad dir there, then
+
+mkdir -p $STATIC/components/codemirror/mode/spad
+cp spad.js $STATIC/components/codemirror/mode/spad
+
