@@ -1,0 +1,225 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Kernel Configuration &#8212; jFriCAS 0.3 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Basic Usage" href="usage.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="kernel-configuration">
+<h1>Kernel Configuration<a class="headerlink" href="#kernel-configuration" title="Permalink to this headline">¶</a></h1>
+<p>For advanced users we here provide a description of the parameters that
+may be changed without running the risk to spoil the kernel.
+Nevertheless, you have to do this at your own risk (best effort support only ;)</p>
+<div class="section" id="finding-the-kernel">
+<h2>Finding the Kernel<a class="headerlink" href="#finding-the-kernel" title="Permalink to this headline">¶</a></h2>
+<p>First of all, we have to find the location where the kernel has been
+installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">In</span> <span class="n">the</span> <span class="n">running</span> <span class="n">kernel</span> <span class="p">(</span><span class="n">notebook</span> <span class="ow">or</span> <span class="n">console</span><span class="p">):</span>
+
+<span class="p">)</span><span class="n">python</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<img alt="_images/kernel_loc.png" src="_images/kernel_loc.png" />
+</div>
+<div class="section" id="edit-the-kernel-file">
+<h2>Edit the Kernel File<a class="headerlink" href="#edit-the-kernel-file" title="Permalink to this headline">¶</a></h2>
+<p>Open the file path (from above) into your favourite editor and look for
+the <code class="docutils literal notranslate"><span class="pre">BEGIN</span>&#160; <span class="pre">user</span> <span class="pre">configuration</span> <span class="pre">options</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ********************************</span>
+<span class="c1"># BEGIN user configuration options</span>
+<span class="c1"># ********************************</span>
+<span class="n">pycmd</span> <span class="o">=</span> <span class="s1">&#39;)python&#39;</span>
+<span class="n">shcmd</span> <span class="o">=</span> <span class="s1">&#39;!&#39;</span>
+<span class="n">shutd</span> <span class="o">=</span> <span class="s1">&#39;)shutdown&#39;</span>
+<span class="n">gplot</span> <span class="o">=</span> <span class="s1">&#39;)gnuplot&#39;</span>
+</pre></div>
+</div>
+<div class="section" id="start-options">
+<h3>Start options<a class="headerlink" href="#start-options" title="Permalink to this headline">¶</a></h3>
+<p>The start options cotrol how the fricas webserver will be started:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fricas_start_options</span> <span class="o">=</span> <span class="s1">&#39;-noht&#39;</span>   <span class="c1">### -nox blocks if draw is used (others?)</span>
+<span class="n">fricas_terminal</span> <span class="o">=</span> <span class="p">[]</span>             <span class="c1">###  E.g. [&#39;xterm&#39;,&#39;-e&#39;] for &#39;xterm&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="shell-commands">
+<h3>Shell commands<a class="headerlink" href="#shell-commands" title="Permalink to this headline">¶</a></h3>
+<p>These variables control the external shell commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">shell_timeout</span> <span class="o">=</span> <span class="mi">15</span> <span class="c1"># Timeout for shell commands in secs.</span>
+<span class="n">shell_result</span> <span class="o">=</span> <span class="kc">None</span> <span class="c1"># store last sh result in python</span>
+<span class="n">shell_result_fricas</span> <span class="o">=</span> <span class="s1">&#39;__system_result:=&quot;</span><span class="si">{0}</span><span class="s1">&quot;&#39;</span> <span class="c1"># store sh result in Fricas</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="html-prefix">
+<h3>HTML prefix<a class="headerlink" href="#html-prefix" title="Permalink to this headline">¶</a></h3>
+<p>The HTML prefix defines which strings (Type: String) returned from FricAS
+will be interpreted as HTML code.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">html_prefix</span> <span class="o">=</span> <span class="s1">&#39;$HTML$&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="latex-mathjax-related">
+<h3>LaTeX/MathJax related<a class="headerlink" href="#latex-mathjax-related" title="Permalink to this headline">¶</a></h3>
+<p>The MathJax output (<code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">output</span> <span class="pre">tex</span> <span class="pre">on</span></code>) is controlled by the following
+options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># LaTeX color/size parameters</span>
+<span class="n">type_color</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;blue&quot;</span>
+<span class="n">type_size</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\scriptsize&quot;</span>
+<span class="n">tex_color</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;black&quot;</span>
+<span class="n">tex_size</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\normalsize&quot;</span>
+
+<span class="c1"># Templates (TeX)</span>
+<span class="n">pretex1</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\(\def\sp{^}\def\sb</span><span class="si">{_}</span><span class="s2">\def\leqno(#1)</span><span class="si">{}</span><span class="s2">\)&quot;</span>
+<span class="n">pretex2</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\(\def\erf\{\mathrm</span><span class="si">{erf}</span><span class="s2">}\def\sinh{\mathrm</span><span class="si">{sinh}</span><span class="s2">}\)&quot;</span>
+<span class="n">pretex3</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\(\def\zag#1#2{{{ \left.{#1}\right|}\over{\left|{#2}\right.}}}\)&quot;</span>
+<span class="n">pretex4</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;\(\require</span><span class="si">{color}</span><span class="s2">\)&quot;</span>
+<span class="n">pretex</span> <span class="o">=</span> <span class="n">pretex1</span><span class="o">+</span><span class="n">pretex2</span><span class="o">+</span><span class="n">pretex3</span><span class="o">+</span><span class="n">pretex4</span>
+<span class="n">ljax</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$$&quot;</span>  <span class="c1"># variants: r&quot;\(&quot;</span>
+<span class="n">rjax</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;$$&quot;</span>  <span class="c1">#           r&quot;\)&quot;</span>
+
+<span class="c1"># texout_types.format(tex_color,tex_size,tex,type_color,type_size,type)</span>
+<span class="n">texout_types</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">{{\color{{</span><span class="si">{0}</span><span class="s2">}} </span><span class="si">{1}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2">}} \\[0.9ex] {{\color{{</span><span class="si">{3}</span><span class="s2">}} </span><span class="si">{4}</span><span class="s2"> \text{{</span><span class="si">{5}</span><span class="s2">}}}} \\</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="c1"># texout.format(tex_color,tex_size,tex)</span>
+<span class="n">texout</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">{{\color{{</span><span class="si">{0}</span><span class="s2">}} </span><span class="si">{1}</span><span class="s2"> </span><span class="si">{2}</span><span class="s2">}}</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gnuplot">
+<h3>Gnuplot<a class="headerlink" href="#gnuplot" title="Permalink to this headline">¶</a></h3>
+<p>For the built-in Gnuplot feature:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># gnuplot javascript files location</span>
+<span class="c1"># (todo: ought to be locally served, e.g. /static)</span>
+<span class="c1"># gpjsf = &#39;https://nilqed.github.io/jfricas.pip/js&#39;</span>
+<span class="n">gpjsf</span> <span class="o">=</span> <span class="s1">&#39;/static/gpjs&#39;</span>
+
+<span class="c1"># gnuplot canvas template (html5)</span>
+<span class="n">gptpl</span> <span class="o">=</span><span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">&lt;script src=&quot;</span><span class="si">{0}</span><span class="s2">/canvastext.js&quot;&gt;&lt;/script&gt;</span>
+<span class="s2">&lt;script src=&quot;</span><span class="si">{0}</span><span class="s2">/gnuplot_common.js&quot;&gt;&lt;/script&gt;</span>
+<span class="s2">&lt;canvas id=&quot;</span><span class="si">{1}</span><span class="s2">&quot; width=600 height=400&gt;&lt;/canvas&gt;</span>
+<span class="s2">&lt;script&gt;</span><span class="si">{2}</span><span class="s2">&lt;/script&gt;</span>
+<span class="s2">&lt;script&gt;</span><span class="si">{3}</span><span class="s2">();&lt;/script&gt;</span>
+<span class="s2">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="end-of-user-config">
+<h3>End of user config<a class="headerlink" href="#end-of-user-config" title="Permalink to this headline">¶</a></h3>
+<p>If you make changes beyond this point, then you are on your own:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ***************</span>
+<span class="c1"># END user config</span>
+<span class="c1"># ***************</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">jFriCAS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Basic Usage</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Kernel Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#finding-the-kernel">Finding the Kernel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#edit-the-kernel-file">Edit the Kernel File</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="usage.html" title="previous chapter">Basic Usage</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Ralf Hemmecke, Kurt Pagani.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/config.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

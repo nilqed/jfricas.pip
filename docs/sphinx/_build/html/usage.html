@@ -297,6 +297,37 @@ required to create a symbolic link (as in the example below)</p>
 <img alt="_images/sys_help_edit.png" src="_images/sys_help_edit.png" />
 <img alt="_images/sys_d_op.png" src="_images/sys_d_op.png" />
 </div>
+<div class="section" id="syntax-highlighting">
+<h2>Syntax Highlighting<a class="headerlink" href="#syntax-highlighting" title="Permalink to this headline">¶</a></h2>
+<p>For those who like syntax highlighting there is a <em>codemirror mode</em>
+file, <code class="docutils literal notranslate"><span class="pre">spad.js</span></code> in  the folder <code class="docutils literal notranslate"><span class="pre">docs/static</span></code>.
+This file should be served from</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">localhost</span><span class="p">:</span><span class="mi">8888</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">components</span><span class="o">/</span><span class="n">codemirror</span><span class="o">/</span><span class="n">mode</span><span class="o">/</span><span class="n">spad</span><span class="o">/</span><span class="n">spad</span><span class="o">.</span><span class="n">js</span>
+</pre></div>
+</div>
+<p>In order to install it, we first have to find the <code class="docutils literal notranslate"><span class="pre">static</span></code> directory of the
+Jupyter notebook.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>STATIC=$(python3 -c &quot;import notebook.notebookapp as nap; \
+             print(nap.DEFAULT_STATIC_FILES_PATH)&quot;)
+
+echo $STATIC
+e.g. /.../.local/lib/python3.6/site-packages/notebook/static
+
+
+ls $STATIC/components/codemirror/mode/
+# if no spad dir there, then
+
+mkdir -p $STATIC/components/codemirror/mode/spad
+cp docs/static/spad.js $STATIC/components/codemirror/mode/spad
+</pre></div>
+</div>
+<p>Next time you start a notebook the mode will be loaded, and you should see coloured
+keywords and built-in’s like <code class="docutils literal notranslate"><span class="pre">if,</span> <span class="pre">then,</span> <span class="pre">else,</span> <span class="pre">for</span> <span class="pre">,repeat</span> <span class="pre">...</span></code>.</p>
+<img alt="_images/codemirror.png" src="_images/codemirror.png" />
+<p>You may add more keywords by editing the file <code class="docutils literal notranslate"><span class="pre">spad.js</span></code> directly.
+Thanks to <a class="reference external" href="https://github.com/billpage/CodeMirror/blob/master/mode/axiom/axiom.js">Bill Page</a> who provided <code class="docutils literal notranslate"><span class="pre">axiom.js</span></code>, on which <code class="docutils literal notranslate"><span class="pre">spad.js</span></code>
+is based.</p>
+</div>
 </div>
 
 
@@ -333,6 +364,7 @@ required to create a symbolic link (as in the example below)</p>
 <li class="toctree-l2"><a class="reference internal" href="#draw">Draw</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gnuplot-experimental">Gnuplot (experimental)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#help">Help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#syntax-highlighting">Syntax Highlighting</a></li>
 </ul>
 </li>
 </ul>
