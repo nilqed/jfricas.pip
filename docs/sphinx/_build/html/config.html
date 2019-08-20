@@ -55,7 +55,16 @@ the <code class="docutils literal notranslate"><span class="pre">BEGIN</span>&#1
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ********************************</span>
 <span class="c1"># BEGIN user configuration options</span>
 <span class="c1"># ********************************</span>
-<span class="n">pycmd</span> <span class="o">=</span> <span class="s1">&#39;)python&#39;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="foreign-commands">
+<h2>Foreign commands<a class="headerlink" href="#foreign-commands" title="Permalink to this headline">¶</a></h2>
+<p>The following commands are not part of FriCAS, however, we use the same
+prefix (namely <code class="docutils literal notranslate"><span class="pre">)</span></code>) as the system commands (the <code class="docutils literal notranslate"><span class="pre">%</span></code> as the ipython magics,
+might be confusing). So, for instance, the prefix for Python commands could
+be changed to <code class="docutils literal notranslate"><span class="pre">%python</span></code> or whatever.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pycmd</span> <span class="o">=</span> <span class="s1">&#39;)python&#39;</span>
 <span class="n">shcmd</span> <span class="o">=</span> <span class="s1">&#39;!&#39;</span>
 <span class="n">shutd</span> <span class="o">=</span> <span class="s1">&#39;)shutdown&#39;</span>
 <span class="n">gplot</span> <span class="o">=</span> <span class="s1">&#39;)gnuplot&#39;</span>
@@ -68,6 +77,32 @@ the <code class="docutils literal notranslate"><span class="pre">BEGIN</span>&#1
 <span class="n">fricas_terminal</span> <span class="o">=</span> <span class="p">[]</span>             <span class="c1">###  E.g. [&#39;xterm&#39;,&#39;-e&#39;] for &#39;xterm&#39;</span>
 </pre></div>
 </div>
+<p>The FriCAS start options excactly correspond the ones from</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ fricas -h
+fricas
+  [-nosman]            use plain command line interface (disables other options)
+  [-ht   |-noht]       whether to use HyperDoc
+  [-gr   |-nogr]       whether to use Graphics
+  [-clef |-noclef]     whether to use Clef
+  [-iw   |-noiw]       start in interpreter window
+  [-ihere|-noihere]    start an interpreter buffer in the original window.
+  [-nox]               don&#39;t use X Windows
+  [-go  |-nogo]        whether to start system
+  [-ws wsname]         use named workspace
+  [-list]              list workspaces only
+  [-clefprog fname]    use named program for Clef
+  [-h]                 show usage
+  [-eval code]         evaluate specified code at start
+  [-texmacs]           setup FriCAS for communication in TeXmacs protocol
+  [-emacs]             setup for emacs frontend
+</pre></div>
+</div>
+<p>However, let us emphasize that not many of them will actually work as
+expected when set in <code class="docutils literal notranslate"><span class="pre">fricas_start_options</span></code>. The options <code class="docutils literal notranslate"><span class="pre">-nosman</span></code>
+and <code class="docutils literal notranslate"><span class="pre">-nox</span></code>, for example, might block in case some commands are used which
+require the <code class="docutils literal notranslate"><span class="pre">X11</span></code> system. We have not tested much of the possible
+combinations, but en/dis-abling <em>Clef</em> and <em>Hyperdoc</em> for example, is certainly
+no problem.</p>
 </div>
 <div class="section" id="shell-commands">
 <h3>Shell commands<a class="headerlink" href="#shell-commands" title="Permalink to this headline">¶</a></h3>
@@ -77,6 +112,13 @@ the <code class="docutils literal notranslate"><span class="pre">BEGIN</span>&#1
 <span class="n">shell_result_fricas</span> <span class="o">=</span> <span class="s1">&#39;__system_result:=&quot;</span><span class="si">{0}</span><span class="s1">&quot;&#39;</span> <span class="c1"># store sh result in Fricas</span>
 </pre></div>
 </div>
+<p>The <code class="docutils literal notranslate"><span class="pre">shell_timeout</span></code> may be adjusted to suite you needs (in case your shell
+jobs might run more than 15 seconds).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">shell_result</span></code> <strong>must</strong> not be changed (just initializing).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">shell_result_fricas</span></code> variable holds the name of the FriCAS variable
+which stores the last shell output as string. If you wanted another name
+than <code class="docutils literal notranslate"><span class="pre">__system_result</span></code>, then you would change it here (note that the
+part <code class="docutils literal notranslate"><span class="pre">:=&quot;{0}&quot;</span></code> is mandatory).</p>
 </div>
 <div class="section" id="html-prefix">
 <h3>HTML prefix<a class="headerlink" href="#html-prefix" title="Permalink to this headline">¶</a></h3>
@@ -85,6 +127,8 @@ will be interpreted as HTML code.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">html_prefix</span> <span class="o">=</span> <span class="s1">&#39;$HTML$&#39;</span>
 </pre></div>
 </div>
+<p>You are free to change this, provided that Python can recognize it
+(technically: str.startswith).</p>
 </div>
 <div class="section" id="latex-mathjax-related">
 <h3>LaTeX/MathJax related<a class="headerlink" href="#latex-mathjax-related" title="Permalink to this headline">¶</a></h3>
@@ -116,13 +160,12 @@ options:</p>
 <span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
+<p>The options above are certainly self-explanatory.</p>
 </div>
 <div class="section" id="gnuplot">
 <h3>Gnuplot<a class="headerlink" href="#gnuplot" title="Permalink to this headline">¶</a></h3>
 <p>For the built-in Gnuplot feature:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># gnuplot javascript files location</span>
-<span class="c1"># (todo: ought to be locally served, e.g. /static)</span>
-<span class="c1"># gpjsf = &#39;https://nilqed.github.io/jfricas.pip/js&#39;</span>
 <span class="n">gpjsf</span> <span class="o">=</span> <span class="s1">&#39;/static/gpjs&#39;</span>
 
 <span class="c1"># gnuplot canvas template (html5)</span>
@@ -135,16 +178,31 @@ options:</p>
 <span class="s2">&quot;&quot;&quot;</span>
 </pre></div>
 </div>
+<p>The variable <code class="docutils literal notranslate"><span class="pre">gpjsf</span></code> holds the name of the location from where
+the Gnuplot Javascript files are served, i.e. correspondingly</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">localhost</span><span class="p">:</span><span class="mi">8888</span><span class="o">/</span><span class="n">static</span><span class="o">/</span><span class="n">gpjs</span>
+</pre></div>
+</div>
+<p>Note: there must be a symbolic link from the Gnuplot installation to this
+directory.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">gptpl</span></code> is a template for the HTML5 canvas that will be injected to
+the Jupyter notebook.</p>
 </div>
 <div class="section" id="end-of-user-config">
 <h3>End of user config<a class="headerlink" href="#end-of-user-config" title="Permalink to this headline">¶</a></h3>
-<p>If you make changes beyond this point, then you are on your own:</p>
+<p>If you make changes beyond this point, then you will be on your own:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># ***************</span>
 <span class="c1"># END user config</span>
 <span class="c1"># ***************</span>
 </pre></div>
 </div>
 </div>
+</div>
+<div class="section" id="extending-the-kernel">
+<h2>Extending the kernel<a class="headerlink" href="#extending-the-kernel" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">jfricas</span></code> kernel is essentially a simple <a class="reference external" href="https://jupyter-client.readthedocs.io/en/stable/wrapperkernels.html">Python wrapper kernel</a> that
+can be extended according to the corresponding <a class="reference external" href="https://jupyter-client.readthedocs.io/en/stable/messaging.html">Messaging in Jupyter</a>
+documentation.</p>
 </div>
 </div>
 
@@ -172,6 +230,8 @@ options:</p>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Kernel Configuration</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#finding-the-kernel">Finding the Kernel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#edit-the-kernel-file">Edit the Kernel File</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#foreign-commands">Foreign commands</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#extending-the-kernel">Extending the kernel</a></li>
 </ul>
 </li>
 </ul>
