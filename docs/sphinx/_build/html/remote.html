@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Remote via SSH &#8212; jFriCAS 0.3 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Explaining webSPAD" href="webspad.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="remote-via-ssh">
+<h1>Remote via SSH<a class="headerlink" href="#remote-via-ssh" title="Permalink to this headline">¶</a></h1>
+<p>We can use <em>Jupyter</em> on any suitable client remotely by <code class="docutils literal notranslate"><span class="pre">ssh</span> <span class="pre">tunneling</span></code>
+and <code class="docutils literal notranslate"><span class="pre">port</span> <span class="pre">forwarding</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cmd=&#39;jupyter notebook --no-browser&#39;
+ssh -L localhost:localport:remotehost:remoteport remoteuser@remotehost $cmd
+</pre></div>
+</div>
+<p>For example, we may use the same standard port <code class="docutils literal notranslate"><span class="pre">8888</span></code> locally as well:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ssh -L localhost:8888:localhost:8888 user@nowhere.com $cmd
+</pre></div>
+</div>
+<p>Then, after entering your <code class="docutils literal notranslate"><span class="pre">ssh</span></code> password,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>[I 03:07:58.252 NotebookApp] Writing notebook server cookie secret to /run/user/1001/jupyter/notebook_cookie_secret
+[I 03:07:58.501 NotebookApp] Serving notebooks from local directory: /home/kfp
+[I 03:07:58.502 NotebookApp] 0 active kernels
+[I 03:07:58.502 NotebookApp] The Jupyter Notebook is running at:
+[I 03:07:58.502 NotebookApp] http://localhost:8888/?token=cbf1e582d5b44eadc20cf1fcb806c07b4074fbf9f38e8f27
+[I 03:07:58.502 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 03:07:58.503 NotebookApp]
+
+ Copy/paste this URL into your browser when you connect for the first time,
+ to login with a token:
+     http://localhost:8888/?token=cbf1e582d5b44eadc20cf1fcb806c07b4074fbf9f38e8f27&amp;token=cbf1e582d5b44eadc20cf1fcb806c07b4074fbf9f38e8f27
+</pre></div>
+</div>
+<p>the <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code> will be started on the remote machine and the port will
+be forwared to you, that is, open your browser and copy/paste the URL as
+suggested above or alternatively enter</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">localhost</span><span class="p">:</span><span class="mi">8888</span>
+</pre></div>
+</div>
+<p>and you will see something like</p>
+<img alt="_images/jupypw.png" src="_images/jupypw.png" />
+<p>If you enter the token (e.g. from the example above:
+cbf1e582d5b44eadc20cf1fcb806c07b4074fbf9f38e8f27), then you will arrive at
+the usual Jupyter home page and you may proceed as usual (note that the
+notebooks are stored remotely, so you have to use menu/download if you want them
+locally).</p>
+<div class="section" id="setting-a-password">
+<h2>Setting a Password<a class="headerlink" href="#setting-a-password" title="Permalink to this headline">¶</a></h2>
+<p>Instead of using tokens you may set a <a class="reference external" href="https://jupyter-notebook.readthedocs.io/en/stable/public_server.html">password</a> to protect the server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jupyter</span> <span class="n">notebook</span> <span class="n">password</span>
+</pre></div>
+</div>
+<p>Details may be found in the official documentation: <a class="reference external" href="https://jupyter-notebook.readthedocs.io/en/stable/public_server.html">password</a></p>
+</div>
+<div class="section" id="caveats">
+<h2>Caveats<a class="headerlink" href="#caveats" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>X11 forwarding</p></li>
+</ul>
+</div>
+<div class="section" id="windows-users">
+<h2>Windows Users<a class="headerlink" href="#windows-users" title="Permalink to this headline">¶</a></h2>
+<p>Instead of <code class="docutils literal notranslate"><span class="pre">ssh</span></code> you can use <code class="docutils literal notranslate"><span class="pre">plink</span></code> or <code class="docutils literal notranslate"><span class="pre">putty</span></code> from <a class="reference external" href="https://www.chiark.greenend.org.uk/~sgtatham/putty/latest.html">PuTTy</a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>C:\&gt; plink -L localhost:8888:localhost:8888 usr@host.dom
+$ jupyter notebook --no-browser
+</pre></div>
+</div>
+<p>However,
+the <code class="docutils literal notranslate"><span class="pre">ssh</span></code> client provided by <a class="reference external" href="https://gitforwindows.org/">GitBASH</a> for instance, works perfectly as well.</p>
+</div>
+<div class="section" id="script">
+<h2>Script<a class="headerlink" href="#script" title="Permalink to this headline">¶</a></h2>
+<p>Clearly, you can enter the commands into a bash script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+
+#remote cmd
+cmd=&#39;jupyter notebook --no-browser&#39;
+
+# ssh template
+#ssh -L localhost:localport:remotehost:remoteport remoteuser@remotehost
+
+ssh -L localhost:8888:localhost:8888 usr@host.dom $cmd
+
+# more commands (after termination of jupyter)
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">jFriCAS</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Kernel Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webspad.html">Explaining webSPAD</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Remote via SSH</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#setting-a-password">Setting a Password</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#caveats">Caveats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#windows-users">Windows Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#script">Script</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="webspad.html" title="previous chapter">Explaining webSPAD</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2019, Ralf Hemmecke, Kurt Pagani.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/remote.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
