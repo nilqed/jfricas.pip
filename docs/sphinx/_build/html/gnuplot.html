@@ -33,14 +33,90 @@
             
   <div class="section" id="gnuplot">
 <h1>Gnuplot<a class="headerlink" href="#gnuplot" title="Permalink to this headline">¶</a></h1>
+<p><a class="reference external" href="http://gnuplot.info/">Gnuplot</a> is a portable command-line driven graphing utility for Linux, OS/2, MS Windows, OSX, VMS, and many other platforms. The source code is copyrighted but freely distributed. It was originally created to allow scientists and students to visualize mathematical functions and data interactively, but has grown to support many non-interactive uses such as web scripting. It is also used as a plotting engine by third-party applications like Octave. Gnuplot has been supported and under active development since 1986 (see also <a class="reference external" href="https://en.wikipedia.org/wiki/Gnuplot">Wikipedia</a>).</p>
+<p>Gnuplot is distributed with a large set of demonstration scripts. Further below are samples of <code class="docutils literal notranslate"><span class="pre">canvas</span></code> output from some of the <a class="reference external" href="http://gnuplot.sourceforge.net/demo/">demos</a>. Details: <a class="reference external" href="http://gnuplot.info/docs_5.2/Gnuplot_5.2.pdf">pdf_manual</a>.</p>
+<div class="section" id="using-in-jfricas">
+<h2>Using in jFriCAS<a class="headerlink" href="#using-in-jfricas" title="Permalink to this headline">¶</a></h2>
+<p>If you have installed <code class="docutils literal notranslate"><span class="pre">gnuplot</span></code> and set the link to the gnuplot javascript library as
+described in the <em>install</em> section, then you may use <a class="reference external" href="http://gnuplot.info/">Gnuplot</a> in the jFriCAS
+Jupyter notebook with the (fake) FriCAS command</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span> <span class="o">&lt;</span><span class="n">commands</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>There are, however, some minor restrictions compared to the terminal version. These
+differences will be explained below. First we will show how the jfricas kernel deals
+with the <code class="docutils literal notranslate"><span class="pre">)gnuplot</span></code> cell input. The corresponding Python code in the jfricas kernel
+reads:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cmdl</span> <span class="o">=</span> <span class="n">code</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">gplot</span><span class="p">):]</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="n">cmd</span> <span class="o">=</span> <span class="s1">&#39;;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cmdl</span><span class="p">)</span>
+<span class="n">uid</span> <span class="o">=</span> <span class="s2">&quot;plot&quot;</span><span class="o">+</span><span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">())</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">))</span>
+<span class="n">gcmd</span> <span class="o">=</span> <span class="s1">&#39;gnuplot -e &quot;set term canvas name </span><span class="si">{0}</span><span class="s1">;</span><span class="si">{1}</span><span class="s1">&quot;&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s2">&quot;&#39;&quot;</span><span class="o">+</span><span class="n">uid</span><span class="o">+</span><span class="s2">&quot;&#39;&quot;</span><span class="p">,</span><span class="n">cmd</span><span class="p">)</span>
+<span class="n">gcp</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">gcmd</span><span class="p">,</span> <span class="n">stdout</span><span class="o">=</span><span class="n">PIPE</span><span class="p">,</span> <span class="n">stderr</span><span class="o">=</span><span class="n">STDOUT</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">shell_timeout</span><span class="p">,</span> <span class="n">shell</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">gjs</span> <span class="o">=</span> <span class="n">gcp</span><span class="o">.</span><span class="n">stdout</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+<span class="n">gdata</span><span class="p">[</span><span class="s1">&#39;text/html&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">gptpl</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gpjsf</span><span class="p">,</span> <span class="n">uid</span><span class="p">,</span> <span class="n">gjs</span><span class="p">,</span> <span class="n">uid</span><span class="p">)</span>
+<span class="n">display_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;data&#39;</span><span class="p">:</span><span class="n">gdata</span><span class="p">,</span> <span class="s1">&#39;metadata&#39;</span><span class="p">:{}}</span>
+</pre></div>
+</div>
+<p>Therefore, each line in the cell represents a single command (cmdl). Then all lines
+will be joined by a semicolon (<cite>;</cite>) to form the whole Gnuplot command (<code class="docutils literal notranslate"><span class="pre">cmd</span></code>).
+This command will then be sent to the <a class="reference external" href="http://gnuplot.info/">Gnuplot</a> engine which will return the
+result as a <strong>HTML5 canvas</strong>. The canvas id is <code class="docutils literal notranslate"><span class="pre">uid</span></code> and will be eventually displayed.</p>
+<p>This means that no file images will be produced (like png,jpg etc.). If you like to
+have an image file, you may do a mouse right-click in the canvas area, and then
+select <code class="docutils literal notranslate"><span class="pre">Save</span> <span class="pre">Image</span> <span class="pre">As</span> <span class="pre">...</span></code>.</p>
+<div class="section" id="differences-dos-and-don-ts">
+<h3>Differences (dos and don’ts)<a class="headerlink" href="#differences-dos-and-don-ts" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><p>Use single quotes whenever possible.</p></li>
+<li><p>Double quotes have to be escaped by <code class="docutils literal notranslate"><span class="pre">\</span></code>.</p></li>
+<li><p>Don’t use <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">terminal</span></code> (preconfigured).</p></li>
+<li><p>Don’t use <code class="docutils literal notranslate"><span class="pre">set</span> <span class="pre">title</span></code> (embedded canvas).</p></li>
+<li><p>Don’t use comments <code class="docutils literal notranslate"><span class="pre">#</span></code> (may invalidate the whole command).</p></li>
+<li><p>Use the notebook markdown capabilities for text explanations instead.</p></li>
+<li><p>Don’t use Gnuplot’s line continuation (<code class="docutils literal notranslate"><span class="pre">\</span></code>).</p></li>
+<li><p>Avoid concatenating commands by <cite>;</cite> if possible.</p></li>
+<li><p>Use one line per command (preferred).</p></li>
+</ul>
+</div></blockquote>
+<p>The examples following will give an impression of how it will work well.
+In connection with FriCAS, it is best used by producing a datafile with
+any suitable method (e.g. GnuDraw, Plot, Plot3d etc.) or create the
+files on the fly by using the shell (<cite>!</cite>).</p>
+</div>
+</div>
+<div class="section" id="plot-a-single-data-file">
+<h2>Plot a single data file<a class="headerlink" href="#plot-a-single-data-file" title="Permalink to this headline">¶</a></h2>
+<dl class="field-list simple">
+<dt class="field-odd">Reference</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://riptutorial.com/gnuplot/topic/3284/getting-started-with-gnuplot">RIP_tutorial</a></p>
+</dd>
+</dl>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">version</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Value</span> <span class="o">=</span> <span class="s2">&quot;FriCAS 1.3.5 compiled at Sun Feb  3 18:21:59 UTC 2019&quot;</span>
 </pre></div>
 </div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>!cat &lt;&lt;_EOF &gt; /tmp/mygp.dat
+# Prototype of a gnuplot data set
+# data_set.dat
+# X -   X^2 -    2*X -    Random
+0       0        0        5
+1       1        2        15
+1.4142  2        2.8284   1
+2       4        4        30
+3       9        6        26.46
+3.1415  9.8696   6.2832   39.11
+4       16       8        20
+4.5627  20.8182  9.1254   17
+5.0     25.0     10.0     25.50
+6       36       12       0.908
+_EOF
+</pre></div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span>
-<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/home/kfp/Desktop/gp.dat&#39;</span>
+<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/gp.dat&#39;</span>
 <span class="n">plot</span> <span class="n">filename</span>
 </pre></div>
 </div>
@@ -292,7 +368,7 @@ gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 }
 </script>
 <script>plot6eb63128f9a649d8981bc1f56d4b6a9b();</script><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span>
-<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/home/kfp/Desktop/gp.dat&#39;</span>
+<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/gp.dat&#39;</span>
 <span class="n">plot</span> <span class="n">filename</span><span class="p">,</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -667,7 +743,7 @@ gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 }
 </script>
 <script>plota9889e9450274ba59ac367ac510e779f();</script><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span>
-<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/home/kfp/Desktop/gp.dat&#39;</span>
+<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/gp.dat&#39;</span>
 <span class="n">plot</span> <span class="n">filename</span> <span class="n">using</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span>
 </pre></div>
 </div>
@@ -935,7 +1011,7 @@ gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 }
 </script>
 <script>plot25e3cedf86704e6cac35a24875b6b3e6();</script><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span>
-<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/home/kfp/Desktop/gp.dat&#39;</span>
+<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/gp.dat&#39;</span>
 <span class="n">splot</span> <span class="n">filename</span> <span class="n">using</span> <span class="mi">1</span><span class="p">:</span><span class="mi">2</span><span class="p">:</span><span class="mi">3</span>
 </pre></div>
 </div>
@@ -1283,7 +1359,7 @@ gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 }
 </script>
 <script>plotbe647419313149c18129e8967955aac5();</script><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span>
-<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/home/kfp/Desktop/gp.dat&#39;</span>
+<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/gp.dat&#39;</span>
 <span class="n">plot</span> <span class="n">filename</span> <span class="n">using</span> <span class="mi">1</span><span class="p">:</span><span class="mi">4</span> <span class="k">with</span> <span class="n">linespoint</span>
 </pre></div>
 </div>
@@ -1550,7 +1626,7 @@ gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 }
 </script>
 <script>plotddec0e00c614475ebd627d39449cf114();</script><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span>
-<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/home/kfp/Desktop/gp.dat&#39;</span>
+<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/gp.dat&#39;</span>
 <span class="n">plot</span> <span class="k">for</span> <span class="p">[</span><span class="n">col</span> <span class="o">=</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="n">filename</span> <span class="n">using</span> <span class="mi">1</span><span class="p">:</span><span class="n">col</span> <span class="n">w</span> <span class="n">lp</span>
 </pre></div>
 </div>
@@ -1889,7 +1965,7 @@ gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 }
 </script>
 <script>plotec570d117b8f4e83869275ea72c51839();</script><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">gnuplot</span>
-<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/home/kfp/Desktop/gp.dat&#39;</span>
+<span class="n">filename</span><span class="o">=</span><span class="s1">&#39;/tmp/gp.dat&#39;</span>
 <span class="nb">set</span> <span class="n">grid</span>
 <span class="n">plot</span> <span class="k">for</span> <span class="p">[</span><span class="n">col</span> <span class="o">=</span> <span class="mi">2</span><span class="p">:</span><span class="mi">4</span><span class="p">]</span> <span class="n">filename</span> <span class="n">using</span> <span class="mi">1</span><span class="p">:</span><span class="n">col</span> <span class="n">w</span> <span class="n">lp</span>
 </pre></div>
@@ -2458,7 +2534,8 @@ gnuplot.plot_axis_width = gnuplot.plot_axis_xmax - gnuplot.plot_axis_xmin;
 gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 }
 </script>
-<script>plot65ff562f63d74441994186409bb36d01();</script><div class="section" id="examples">
+<script>plot65ff562f63d74441994186409bb36d01();</script></div>
+<div class="section" id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">)</span><span class="n">version</span>
 </pre></div>
@@ -168287,6 +168364,8 @@ gnuplot.plot_axis_height = gnuplot.plot_axis_ymax - gnuplot.plot_axis_ymin;
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Remote via SSH</a></li>
 <li class="toctree-l1"><a class="reference internal" href="docker.html">Docker image</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Gnuplot</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#using-in-jfricas">Using in jFriCAS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#plot-a-single-data-file">Plot a single data file</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#gnuplot-demos">Gnuplot Demos</a></li>
 </ul>

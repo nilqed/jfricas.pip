@@ -2,6 +2,82 @@
 Gnuplot
 =======
 
+Gnuplot_ is a portable command-line driven graphing utility for Linux, OS/2, MS Windows, OSX, VMS, and many other platforms. The source code is copyrighted but freely distributed. It was originally created to allow scientists and students to visualize mathematical functions and data interactively, but has grown to support many non-interactive uses such as web scripting. It is also used as a plotting engine by third-party applications like Octave. Gnuplot has been supported and under active development since 1986 (see also Wikipedia_). 
+
+.. _Gnuplot: http://gnuplot.info/
+.. _Wikipedia: https://en.wikipedia.org/wiki/Gnuplot
+
+Gnuplot is distributed with a large set of demonstration scripts. Further below are samples of ``canvas`` output from some of the demos_. Details: pdf_manual_.
+  
+
+.. _demos: http://gnuplot.sourceforge.net/demo/
+.. _pdf_manual: http://gnuplot.info/docs_5.2/Gnuplot_5.2.pdf
+
+
+Using in jFriCAS
+----------------
+If you have installed ``gnuplot`` and set the link to the gnuplot javascript library as
+described in the *install* section, then you may use Gnuplot_ in the jFriCAS
+Jupyter notebook with the (fake) FriCAS command
+
+.. code::
+
+    )gnuplot <commands>
+
+There are, however, some minor restrictions compared to the terminal version. These 
+differences will be explained below. First we will show how the jfricas kernel deals
+with the ``)gnuplot`` cell input. The corresponding Python code in the jfricas kernel 
+reads:
+
+.. code::
+
+    cmdl = code[len(gplot):].lstrip().split('\n')
+    cmd = ';'.join(cmdl)
+    uid = "plot"+"".join(str(uuid.uuid4()).split('-'))
+    gcmd = 'gnuplot -e "set term canvas name {0};{1}"'.format("'"+uid+"'",cmd)
+    gcp = run(gcmd, stdout=PIPE, stderr=STDOUT, timeout=shell_timeout, shell=True)
+    gjs = gcp.stdout.decode()
+    gdata['text/html'] = gptpl.format(gpjsf, uid, gjs, uid) 
+    display_data = {'data':gdata, 'metadata':{}}  
+
+Therefore, each line in the cell represents a single command (cmdl). Then all lines
+will be joined by a semicolon (`;`) to form the whole Gnuplot command (``cmd``).
+This command will then be sent to the Gnuplot_ engine which will return the 
+result as a **HTML5 canvas**. The canvas id is ``uid`` and will be eventually displayed.
+
+This means that no file images will be produced (like png,jpg etc.). If you like to
+have an image file, you may do a mouse right-click in the canvas area, and then
+select ``Save Image As ...``.  
+
+
+Differences (dos and don'ts)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ * Use single quotes whenever possible.
+ * Double quotes have to be escaped by ``\``.
+ * Don't use ``set terminal`` (preconfigured).
+ * Don't use ``set title`` (embedded canvas).
+ * Don't use comments ``#`` (may invalidate the whole command).
+ * Use the notebook markdown capabilities for text explanations instead.
+ * Don't use Gnuplot's line continuation (``\``). 
+ * Avoid concatenating commands by `;` if possible.  
+ * Use one line per command (preferred).
+
+The examples following will give an impression of how it will work well.
+In connection with FriCAS, it is best used by producing a datafile with
+any suitable method (e.g. GnuDraw, Plot, Plot3d etc.) or create the
+files on the fly by using the shell (`!`). 
+
+
+
+Plot a single data file
+-----------------------
+
+:Reference: RIP_tutorial_
+
+
+.. _RIP_Tutorial: https://riptutorial.com/gnuplot/topic/3284/getting-started-with-gnuplot
+
 
 .. code::
 
@@ -14,11 +90,29 @@ Gnuplot
 
 
 
+.. code::
+
+    !cat <<_EOF > /tmp/mygp.dat
+    # Prototype of a gnuplot data set
+    # data_set.dat
+    # X -   X^2 -    2*X -    Random 
+    0       0        0        5
+    1       1        2        15
+    1.4142  2        2.8284   1
+    2       4        4        30
+    3       9        6        26.46
+    3.1415  9.8696   6.2832   39.11
+    4       16       8        20
+    4.5627  20.8182  9.1254   17 
+    5.0     25.0     10.0     25.50
+    6       36       12       0.908
+    _EOF
+
 
 .. code::
 
     )gnuplot 
-    filename='/home/kfp/Desktop/gp.dat'
+    filename='/tmp/gp.dat'
     plot filename
 
 
@@ -280,7 +374,7 @@ Gnuplot
 .. code::
 
     )gnuplot 
-    filename='/home/kfp/Desktop/gp.dat'
+    filename='/tmp/gp.dat'
     plot filename,sin(x)
 
 
@@ -665,7 +759,7 @@ Gnuplot
 .. code::
 
     )gnuplot 
-    filename='/home/kfp/Desktop/gp.dat'
+    filename='/tmp/gp.dat'
     plot filename using 2:4
 
 
@@ -943,7 +1037,7 @@ Gnuplot
 .. code::
 
     )gnuplot 
-    filename='/home/kfp/Desktop/gp.dat'
+    filename='/tmp/gp.dat'
     splot filename using 1:2:3
 
 
@@ -1301,7 +1395,7 @@ Gnuplot
 .. code::
 
     )gnuplot 
-    filename='/home/kfp/Desktop/gp.dat'
+    filename='/tmp/gp.dat'
     plot filename using 1:4 with linespoint
 
 
@@ -1578,7 +1672,7 @@ Gnuplot
 .. code::
 
     )gnuplot 
-    filename='/home/kfp/Desktop/gp.dat'
+    filename='/tmp/gp.dat'
     plot for [col = 2:4] filename using 1:col w lp
 
 
@@ -1927,7 +2021,7 @@ Gnuplot
 .. code::
 
     )gnuplot 
-    filename='/home/kfp/Desktop/gp.dat'
+    filename='/tmp/gp.dat'
     set grid
     plot for [col = 2:4] filename using 1:col w lp
 
