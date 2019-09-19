@@ -92,9 +92,9 @@ Plot a single data file
 
 .. code::
 
-    !cat <<_EOF > /tmp/mygp.dat
+    !cat <<_EOF > /tmp/gp.dat
     # Prototype of a gnuplot data set
-    # data_set.dat
+    # gp.dat
     # X -   X^2 -    2*X -    Random 
     0       0        0        5
     1       1        2        15
