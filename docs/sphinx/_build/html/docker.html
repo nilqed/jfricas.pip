@@ -34,7 +34,137 @@
             
   <div class="section" id="docker-image">
 <h1>Docker image<a class="headerlink" href="#docker-image" title="Permalink to this headline">¶</a></h1>
-<p>We can easily build a docker image … todo</p>
+<p>We can easily build a docker image using the following <em>Dockerfile</em>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># **************************************************************************
+# Purpose ...: jfricas (https://github.com/fricas/jfricas)
+# Build .... : docker build -t jfricas:latest .
+# Test ..... : docker run -ti --rm --network=host
+#                --env DISPLAY=:0 fricas/jfricas:latest jupyter notebook
+# Version .. : 0.2.17 -- 17-SEP-2019
+# OS ....... : ubuntu:latest
+# FriCAS ... : fricas:latest
+# **************************************************************************
+
+FROM fricas/fricas
+
+LABEL fricas-devel &lt;fricas-devel@googlegroups.com&gt;
+
+# ENV DEBIAN_FRONTEND noninteractive
+# discouraged: see https://docs.docker.com/engine/faq/
+
+ENV JFRICAS_GITHUB https://github.com/fricas/jfricas
+ENV JFRICAS_VERSION 0.2.17
+
+# ======================================
+# Get packages and install missing tools
+# ======================================
+
+RUN apt-get update &amp;&amp; apt-get install -y -q \
+    python3.6 \
+    python3-pip \
+    cl-asdf \
+    cl-hunchentoot \
+    firefox \
+    gnuplot
+
+
+
+# ===============================
+# Install jfricas.pip from Github
+# ===============================
+
+RUN cd /root &amp;&amp; \
+    pip3 install jupyter &amp;&amp; \
+    git clone $JFRICAS_GITHUB &amp;&amp; \
+    cd jfricas &amp;&amp; \
+    pip3 install . &amp;&amp; \
+    python3 -m jfricas.install_kernel &amp;&amp; \
+    cd /root
+</pre></div>
+</div>
+<div class="section" id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
+<p>Go to the directory containing the <code class="docutils literal notranslate"><span class="pre">Dockerfile</span></code> and type</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span> <span class="o">.</span>
+
+<span class="ow">or</span> <span class="k">with</span> <span class="n">logfile</span><span class="p">:</span>
+
+ <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span> <span class="o">.</span> <span class="o">&gt;</span> <span class="n">log</span>
+</pre></div>
+</div>
+<p>Alternatively you want to use the <code class="docutils literal notranslate"><span class="pre">build.sh</span></code> script:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">rmi</span> <span class="n">fricas</span><span class="o">/</span><span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">build</span> <span class="o">-</span><span class="n">t</span> <span class="n">fricas</span><span class="o">/</span><span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span> <span class="o">.</span> <span class="o">&gt;</span> <span class="n">log</span>
+<span class="n">sudo</span> <span class="n">docker</span> <span class="n">images</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="test">
+<h2>Test<a class="headerlink" href="#test" title="Permalink to this headline">¶</a></h2>
+<p>There is a <code class="docutils literal notranslate"><span class="pre">test.sh</span></code> in the docker subfolder, or you can enter the command
+by hand (one line, otherwise use line continuation):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">ti</span> <span class="o">--</span><span class="n">rm</span> <span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">host</span> <span class="o">--</span><span class="n">env</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="p">:</span><span class="mi">0</span> <span class="n">fricas</span><span class="o">/</span><span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span>
+      <span class="n">jupyter</span> <span class="n">notebook</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span> <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">root</span>
+</pre></div>
+</div>
+<img alt="_images/docker_run_jfc.png" src="_images/docker_run_jfc.png" />
+<p>To merely access the container you can also use</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">ti</span> <span class="o">--</span><span class="n">rm</span> <span class="n">fricas</span><span class="o">/</span><span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span> <span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">bash</span>
+</pre></div>
+</div>
+<p>to get a <code class="docutils literal notranslate"><span class="pre">bash</span></code>, from where you can start things manually.</p>
+<p>Right click on a link and choose <code class="docutils literal notranslate"><span class="pre">open</span></code>.</p>
+<img alt="_images/docker_open_jfc.png" src="_images/docker_open_jfc.png" />
+<p>Your browser should open and display the <code class="docutils literal notranslate"><span class="pre">root</span></code> directory of the image.</p>
+<img alt="_images/docker_jfc_home.png" src="_images/docker_jfc_home.png" />
+<p>Choose the kernel by <code class="docutils literal notranslate"><span class="pre">New-&gt;FriCAS</span></code></p>
+<img alt="_images/docker_new_fricas.png" src="_images/docker_new_fricas.png" />
+<p>then you can use the notebook:</p>
+<img alt="_images/docker_fricas_nb.png" src="_images/docker_fricas_nb.png" />
+<p><strong>Note</strong>: the <code class="docutils literal notranslate"><span class="pre">--rm</span></code> option means that the container is deleted after closing
+the notebook server. This is for testing only, so that your computer will
+not populated with a lot of orphaned containers. If you want to save your
+work (<code class="docutils literal notranslate"><span class="pre">*.ipynb</span></code>, etc.), then remove <code class="docutils literal notranslate"><span class="pre">--rm</span></code> and use <code class="docutils literal notranslate"><span class="pre">--name</span></code> for named
+containers if you like.</p>
+</div>
+<div class="section" id="push">
+<h2>Push<a class="headerlink" href="#push" title="Permalink to this headline">¶</a></h2>
+<p>To push the image you can use the script <code class="docutils literal notranslate"><span class="pre">push.sh</span></code>, or the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">docker</span> <span class="n">push</span> <span class="n">fricas</span><span class="o">/</span><span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span>
+</pre></div>
+</div>
+<img alt="_images/docker_push.png" src="_images/docker_push.png" />
+</div>
+<div class="section" id="run">
+<h2>RUN<a class="headerlink" href="#run" title="Permalink to this headline">¶</a></h2>
+<p>There are two scripts: <code class="docutils literal notranslate"><span class="pre">run.sh</span></code> and <code class="docutils literal notranslate"><span class="pre">runx.sh</span></code> which may be used to start
+the <code class="docutils literal notranslate"><span class="pre">jupyter</span> <span class="pre">notebook</span></code> inside the <code class="docutils literal notranslate"><span class="pre">jfricas</span></code> docker image. The latter can
+be used if you want to have <code class="docutils literal notranslate"><span class="pre">Hyperdoc</span></code> and <code class="docutils literal notranslate"><span class="pre">Draw</span></code>, otherwise <code class="docutils literal notranslate"><span class="pre">run.sh</span></code>
+is safer as it will not set any permissions (<code class="docutils literal notranslate"><span class="pre">xhost</span> <span class="pre">local:root</span></code>).</p>
+<p>Example for running a named container (jfc):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">run</span> <span class="o">-</span><span class="n">ti</span> <span class="o">--</span><span class="n">name</span> <span class="n">jfc</span> <span class="o">--</span><span class="n">network</span><span class="o">=</span><span class="n">host</span>
+      <span class="o">--</span><span class="n">env</span> <span class="n">DISPLAY</span><span class="o">=</span><span class="p">:</span><span class="mi">0</span> <span class="n">fricas</span><span class="o">/</span><span class="n">jfricas</span><span class="p">:</span><span class="n">latest</span>
+          <span class="n">jupyter</span> <span class="n">notebook</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">browser</span>  <span class="o">--</span><span class="n">allow</span><span class="o">-</span><span class="n">root</span>
+</pre></div>
+</div>
+<p>To save the changes in <code class="docutils literal notranslate"><span class="pre">jfc</span></code> to the image, do</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">docker</span> <span class="n">commit</span> <span class="n">jfc</span> <span class="n">fricas</span><span class="o">/</span><span class="n">jfricas</span>
+<span class="p">[</span><span class="n">sudo</span><span class="p">]</span> <span class="n">password</span> <span class="k">for</span> <span class="n">user</span><span class="p">:</span>
+<span class="n">sha256</span><span class="p">:</span><span class="n">bea4f6525c7b2f03f6893bec5a03646a1ba69cb8f669890c14105fa61010c1dd</span>
+</pre></div>
+</div>
+<p>Then you can remove the <code class="docutils literal notranslate"><span class="pre">`jfc</span></code> container (if you like):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">docker</span> <span class="n">rm</span> <span class="n">jfc</span>
+</pre></div>
+</div>
+<p>Do not forget do push the changed image (only if you want to, of course):</p>
+<blockquote>
+<div><p>sudo docker push fricas/jfricas</p>
+</div></blockquote>
+<p>The commands <code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">ps</span> <span class="pre">-a</span></code> will list all active containers, while
+<code class="docutils literal notranslate"><span class="pre">docker</span> <span class="pre">images</span></code> will show the images.</p>
+</div>
 </div>
 
 
@@ -61,7 +191,13 @@
 <li class="toctree-l1"><a class="reference internal" href="config.html">Kernel Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webspad.html">Explaining webSPAD</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Remote via SSH</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Docker image</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Docker image</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#build">Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#test">Test</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#push">Push</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#run">RUN</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="gnuplot.html">Gnuplot</a></li>
 </ul>
 
