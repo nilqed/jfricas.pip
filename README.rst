@@ -1,3 +1,14 @@
+**DEPRECATED** (prototype) 
+
+Instead:
+
+Release: https://github.com/fricas/jfricas
+
+PyPI: https://pypi.org/project/jfricas/
+
+Docs: https://jfricas.readthedocs.io/en/latest/
+
+
 ===============================
 FriCAS Jupyter Kernel (jfricas)
 ===============================
